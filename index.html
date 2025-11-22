@@ -10,7 +10,7 @@ body {
     margin: 0;
     padding: 0;
 }
-#chatbox {
+#chat-box {
     width: 90%;
     max-width: 600px;
     margin: 40px auto;
@@ -18,6 +18,8 @@ body {
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 0 10px #0002;
+    height: 400px;
+    overflow-y: auto;
 }
 .message {
     margin: 10px 0;
@@ -30,6 +32,14 @@ body {
 }
 .bot {
     background: #e8f4ff;
+}
+#lock-message {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    background: #ffe6e6;
+    margin-top: 10px;
+    border-radius: 10px;
 }
 input, button {
     width: 100%;
@@ -48,64 +58,17 @@ button {
 </head>
 <body>
 
-<div id="chatbox">
-    <div id="messages"></div>
-    <input id="userInput" type="text" placeholder="Type your message...">
-    <button onclick="sendMessage()">Send</button>
+<div id="chat-box"></div>
+
+<div id="lock-message">
+    <h3>You’ve reached your free limit.</h3>
+    <p>Watch an ad to continue chatting.</p>
+    <button id="watch-ad-btn">Watch Ad</button>
 </div>
 
-<script>
-// --------------------------
-// SET YOUR OPENAI API KEY:
-// --------------------------
-const API_KEY = "sk-...DPsA";  // ← Replace with your real key
-// --------------------------
+<input id="chat-input" type="text" placeholder="Type your message…">
+<button id="send-btn">Send</button>
 
-async function sendMessage() {
-    let text = document.getElementById("userInput").value.trim();
-    if (!text) return;
-
-    addMessage(text, "user");
-    document.getElementById("userInput").value = "";
-
-    // AI personality
-    const systemPrompt = `
-You are LoveChat AI — a warm, respectful assistant who gives romantic message ideas,
-relationship tips, and communication help. Keep responses short, friendly, and safe.
-You do NOT roleplay romance with the user. You are not a real person.
-`;
-
-    const requestBody = {
-        model: "gpt-4o-mini",
-        messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: text }
-        ]
-    };
-
-    let reply = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + API_KEY
-        },
-        body: JSON.stringify(requestBody)
-    });
-
-    let result = await reply.json();
-    let botMsg = result.choices[0].message.content;
-    addMessage(botMsg, "bot");
-}
-
-function addMessage(text, role) {
-    const box = document.getElementById("messages");
-    const div = document.createElement("div");
-    div.className = "message " + role;
-    div.textContent = text;
-    box.appendChild(div);
-    box.scrollTop = box.scrollHeight;
-}
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
