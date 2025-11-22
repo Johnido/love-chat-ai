@@ -135,7 +135,7 @@ async function sendMessage() {
 // ----- REAL OPENAI GPT API CALL -----
 // Replace "YOUR_OPENAI_API_KEY" with your API key
 async function getBotReply(userText) {
-    const apiKey = "YOUR_OPENAI_API_KEY"; // 🔑 For testing only
+    const apiKey = "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"; // 🔑 For testing only
     try {
         const response = await fetch("https://api.openai.com/v1/chat/completions", {
             method: "POST",
