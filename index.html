@@ -109,11 +109,10 @@ function unlockChat() {
 function openMoneyTagAd() {
     const adLink = "https://otieu.com/4/10223438";
     window.open(adLink, "_blank"); // opens in new tab
-    // unlock after 3 seconds
     setTimeout(() => {
         alert("Chat unlocked! Thank you for watching the ad.");
         unlockChat();
-    }, 3000);
+    }, 3000); // 3-second delay
 }
 
 document.getElementById("watch-ad-btn").addEventListener("click", openMoneyTagAd);
@@ -129,14 +128,14 @@ async function sendMessage() {
     registerMessage();
     document.getElementById("chat-input").value = "";
 
-    // ----- AI RESPONSE -----
     const botReply = await getBotReply(userInput);
     addMessage(botReply, "bot");
 }
 
-// Replace YOUR_OPENAI_API_KEY_HERE with your OpenAI API key
+// ----- REAL OPENAI GPT API CALL -----
+// Replace "YOUR_OPENAI_API_KEY" with your API key
 async function getBotReply(userText) {
-    const apiKey = "sk-...DPsA"; // 🔑 unsafe in browser
+    const apiKey = "YOUR_OPENAI_API_KEY"; // 🔑 For testing only
     try {
         const response = await fetch("https://api.openai.com/v1/chat/completions", {
             method: "POST",
